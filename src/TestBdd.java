@@ -22,7 +22,7 @@ public class TestBdd {
 		int choise;
 		while (again) {
 			String instruction = "Choisissez:\n"+
-					"1: Consulter les articles - 2: Ajouter un article - 3: supprimmer un article";
+					"1: Consulter les articles - 2: Ajouter un article - 3: supprimmer un article - 4: Éditer un article";
 			choise = writeNumber(instruction, scn);
 			switch (choise) {
 			case 1:
@@ -102,6 +102,43 @@ public class TestBdd {
 			}
 		}
 	}
+	
+	//modifier un article
+	public void modifyArticle(Scanner scn) {
+		String instruction = "Sélectionner l'id de l'article à modifier. (0 pour les afficher tous)";
+		int choise;
+		boolean tryAgain = true;
+		while (tryAgain) {
+			choise = writeNumber(instruction, scn);
+			if (choise != 0) {
+				String 	articleToChange = "",
+						articleBase = "",
+						marqueBase = "";
+				Double 	prixBase = (double) 0;
+				Double	newPrix;
+				ArrayList<Article> article = RequestDatabase.readDatabase("SELECT * FROM "+table+" WHERE IdArticle = "+choise+";");
+				for (Article a : article) {
+					articleBase = a.getDescription();
+					marqueBase = a.getBrand();
+					prixBase = a.getUnitPrice();
+					articleToChange += "Id: "+a.getIdArticle() +". Description: "+articleBase+". Marque: "+marqueBase+". Prix unitaire: "+prixBase+".";
+				}
+				String 	newArticle = modifyContentArticle(articleBase, scn),
+						newMarque = modifyContentArticle(marqueBase, scn);
+				System.out.println("Ancien prix: "+prixBase+". Le changer ? (Oui/Non)");
+				if (scn.next().equals("Oui")) {
+					newPrix = writePrice("Quel est le nouveau prix ?", scn);
+				} else {
+					newPrix = prixBase;
+				}
+				//Contrôle les changements si rien de changé pas de mise a jour.
+				tryAgain = false;
+			} else {
+				lookDatabase();
+			}
+		}
+		
+	}
 
 	//récupére une donnée
 	public static String writeData(String instruction, Scanner scn) {
@@ -152,5 +189,17 @@ public class TestBdd {
 			}
 		};
 		return 0;
+	}
+	
+	//methode pour changer confirmer uen modification
+	public static String modifyContentArticle(String object, Scanner scn) {
+		String instruction = "Modifier "+object+" ? (Oui/Non)";
+		String choise = scn.nextLine();
+		if (choise.equals("Oui")) {
+			String newObjet = writeData("Par quoi remplacer "+object+" ?");
+			return newObjet;
+		} else {
+			return object;
+		}
 	}
 }

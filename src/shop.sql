@@ -61,6 +61,7 @@ SELECT Description FROM T_Articles;
 --cetterequête va chercher un article commençant par cla et ayant un prix inférieur à 30
 SELECT * FROM T_Articles WHERE Description LIKE 'Cla%' AND UnitaryPrice < 30;
 **
+*
 --1.12 Ajouter la table des catégories à votre base de données et insérez-en
 CREATE TABLE categories (
 	idCaterory int(4) PRIMARY KEY AUTO_INCREMENT,
