@@ -34,6 +34,9 @@ public class TestBdd {
 			case 3:
 				deleteArticle(scn);
 				break;
+			case 4:
+				modifyArticle(scn);
+				break;
 			default:
 				System.out.println("Cette option n'existe pas");
 				break;
@@ -104,7 +107,7 @@ public class TestBdd {
 	}
 	
 	//modifier un article
-	public void modifyArticle(Scanner scn) {
+	public static void modifyArticle(Scanner scn) {
 		String instruction = "Sélectionner l'id de l'article à modifier. (0 pour les afficher tous)";
 		int choise;
 		boolean tryAgain = true;
@@ -126,12 +129,17 @@ public class TestBdd {
 				String 	newArticle = modifyContentArticle(articleBase, scn),
 						newMarque = modifyContentArticle(marqueBase, scn);
 				System.out.println("Ancien prix: "+prixBase+". Le changer ? (Oui/Non)");
-				if (scn.next().equals("Oui")) {
+				String changePrice = scn.next();
+				if (changePrice.equals("Oui")) {
 					newPrix = writePrice("Quel est le nouveau prix ?", scn);
 				} else {
 					newPrix = prixBase;
 				}
-				//Contrôle les changements si rien de changé pas de mise a jour.
+				if (articleBase != newArticle || marqueBase != newMarque || prixBase != newPrix) {
+					RequestDatabase.writeDataBase("UPDATE "+table+" SET Description = '"+newArticle+"', Brand = '"+newMarque+"', UnitaryPrice = "+newPrix+" WHERE IdArticle = "+choise+";");
+				} else {
+					System.out.println("Les données sont inchangés");
+				}
 				tryAgain = false;
 			} else {
 				lookDatabase();
@@ -193,10 +201,10 @@ public class TestBdd {
 	
 	//methode pour changer confirmer uen modification
 	public static String modifyContentArticle(String object, Scanner scn) {
-		String instruction = "Modifier "+object+" ? (Oui/Non)";
-		String choise = scn.nextLine();
+		System.out.println("Modifier "+object+" ? (Oui/Non)");
+		String choise = scn.next();
 		if (choise.equals("Oui")) {
-			String newObjet = writeData("Par quoi remplacer "+object+" ?");
+			String newObjet = writeData("Par quoi remplacer "+object+" ?", scn);
 			return newObjet;
 		} else {
 			return object;
