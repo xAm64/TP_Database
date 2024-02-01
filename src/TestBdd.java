@@ -12,6 +12,9 @@ import java.sql.Connection;
 
 import org.omg.PortableInterceptor.TRANSPORT_RETRY;
 
+import fr.fms.dao.RequestDatabase;
+import fr.fms.entities.Article;
+
 public class TestBdd {
 	private static String table = "T_Articles";
 

@@ -1,3 +1,4 @@
+package fr.fms.entities;
 
 public class Article {
 	private int idArticle;

@@ -1,3 +1,4 @@
+package fr.fms.dao;
 import java.net.ConnectException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -5,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import fr.fms.entities.Article;
 
 public class RequestDatabase {
 	public static ArrayList<Article> readDatabase(String request) {
