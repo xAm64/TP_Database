@@ -27,11 +27,10 @@ public class RequestDatabase {
 			try(Statement statement = connect.createStatement()){
 				try (ResultSet  resultSet = statement.executeQuery(strSql)){
 					while(resultSet.next()) {
-						int rsIdUser = resultSet.getInt(1);
-						String rsDescription = resultSet.getString(2);
-						String rsBrand = resultSet.getString(3);
-						double rsPrice = resultSet.getDouble(4);
-						articles.add(new Article(rsIdUser, rsDescription, rsBrand, rsPrice));
+						String rsDescription = resultSet.getString(1);
+						String rsBrand = resultSet.getString(2);
+						double rsPrice = resultSet.getDouble(3);
+						articles.add(new Article(rsDescription, rsBrand, rsPrice));
 					}
 				}
 			}

@@ -9,5 +9,5 @@ public interface Dao<T> {
 	public T read(int id);
 	public void update(T obj, int id);
 	public void delete(int id);
-	public ArrayList<T> readAll();
+	public ArrayList<T> readAll(); 
 }

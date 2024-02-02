@@ -79,3 +79,17 @@ SELECT * FROM categories;
 --1.13 Afficher les articles de l'id 11 à 16 par ordre de prix croissant
 SELECT * FROM T_Articles WHERE (IdArticle BETWEEN 11 AND 16) ORDER BY UnitaryPrice ASC;
 */
+
+--Exercice 6 Insérer table utilisateur
+CREATE TABLE T_Users(
+	idUser		int(4) PRIMARY KEY AUTO_INCREMENT,
+	login		varchar(22) NOT NULL,
+	password	varchar(20) NOT NULL
+) ENGINE = InnoDB;
+--Exercice 7 Ajouter des utilisateurs (le Hash sera vu plus tard).
+INSERT INTO T_Users (login, password) VALUES
+	('Manex', 'coupdesabot.com'),
+	('Isnaa', 'tapé!'),
+	('Dudiir', 'healllll!!!!'),
+	('Oatscar', 'meuh');
+SELECT * FROM T_Users;
