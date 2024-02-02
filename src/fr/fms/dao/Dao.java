@@ -7,7 +7,7 @@ public interface Dao<T> {
 	public Connection connection = BddConnection.getConnexion();
 	public void create(T obj);
 	public T read(int id);
-	public boolean update(T obj);
-	public boolean delete(T obj);
+	public void update(T obj, int id);
+	public void delete(int id);
 	public ArrayList<T> readAll();
 }

@@ -3,10 +3,10 @@ package fr.fms.dao;
 import java.io.*;
 import java.util.*;
 public class ReadConfigFile {
-	private static String driver;
-	private static String url;
-	private static String login;
-	private static String password;
+	private String driver;
+	private String url;
+	private String login;
+	private String password;
 	
 	public ReadConfigFile() throws IOException {
 		Properties prop = readPropertiesFile("config.properties");
@@ -16,24 +16,24 @@ public class ReadConfigFile {
 		this.password = prop.getProperty("db.password");
 	}
 	
-	public static String getDriver() {
+	public String getDriver() {
 		return driver;
 	}
 
-	public static String getUrl() {
+	public String getUrl() {
 		return url;
 	}
 
-	public static String getLogin() {
+	public String getLogin() {
 		return login;
 	}
 
-	public static String getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
 
-	public static Properties readPropertiesFile(String fileName) throws IOException {
+	public Properties readPropertiesFile(String fileName) throws IOException {
 		FileInputStream fis = null;
 		Properties prop = null;
 		

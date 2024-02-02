@@ -6,9 +6,8 @@ public class Article {
 	private String brand;
 	private double unitPrice;
 	
-	public Article(int idArticle, String description, String brand, double unitPrice) {
+	public Article(String description, String brand, double unitPrice) {
 		super();
-		this.idArticle = idArticle;
 		this.description = description;
 		this.brand = brand;
 		this.unitPrice = unitPrice;

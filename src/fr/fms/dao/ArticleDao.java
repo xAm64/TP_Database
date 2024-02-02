@@ -15,28 +15,30 @@ import javax.swing.text.DefaultEditorKit.InsertBreakAction;
 import fr.fms.entities.Article;
 
 public class ArticleDao implements Dao<Article>{
-	String table = "T_Articles";
-
+	//test OK
 	@Override
 	public void create(Article obj) {
-		String str = "INSERT INTO "+table+" (Description, Brand, UnitaryPrice) VALUES (?,?,?);";
+		String str = "INSERT INTO T_Articles (Description, Brand, UnitaryPrice) VALUES (?,?,?);";
 		try (PreparedStatement ps = connection.prepareStatement(str)){
 			ps.setString(1, obj.getDescription());
 			ps.setString(2, obj.getBrand());
 			ps.setDouble(3, obj.getUnitPrice());
+			ps.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-
+	
+	//test OK
 	@Override
 	public Article read(int id) {
-		String str = "SELECT * FROM "+table+" WHERE IdArticle = ?;";
+		String str = "SELECT * FROM T_Articles WHERE IdArticle = ?;";
 		try (PreparedStatement ps = connection.prepareStatement(str)){
 			ps.setInt(1, id);
 			ResultSet result = ps.executeQuery();
 			if (result.next()) {
-				return (Article) result;
+				Article article = new Article(result.getString("Description"), result.getString("Brand"), result.getDouble("UnitaryPrice"));
+				return article;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -45,46 +47,39 @@ public class ArticleDao implements Dao<Article>{
 	}
 
 	@Override
-	public boolean update(Article obj) {
-		String str = "UPDATE "+table+" SET Description = ?, Brand = ?, UnitaryPrice = ? WHERE IdArticle = ?";
+	public void update(Article obj, int id) {
+		String str = "UPDATE T_Articles SET Description = ?, Brand = ?, UnitaryPrice = ? WHERE IdArticle = "+id+";";
 		try (PreparedStatement ps = connection.prepareStatement(str)){
 			ps.setString(1, obj.getDescription());
 			ps.setString(2, obj.getBrand());
 			ps.setDouble(3, obj.getUnitPrice());
-			ps.setInt(4, obj.getIdArticle());
+			ps.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
 	}
 
 	@Override
-	public boolean delete(Article obj) {
-		String str = "DELETE FROM "+table+" WHERE IdArticle ="+obj.getIdArticle()+";";
+	public void delete(int id) {
+		String str = "DELETE FROM T_Articles WHERE IdArticle ="+id+";";
 		try (PreparedStatement ps = connection.prepareStatement(str)){
-			ResultSet result = ps.executeQuery();
-			if (result.next()) return true;
+			ps.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
 	}
 
 	@Override
 	public ArrayList<Article> readAll() {
-		String str = "SELECT * FROM "+table+";";
+		String str = "SELECT * FROM T_Articles;";
 		try (PreparedStatement ps = connection.prepareStatement(str)){
 			ResultSet result = ps.executeQuery();
 			if (result.next()) {
-				ArrayList<Article> x = new ArrayList<Article>();
+				ArrayList<Article> articles = new ArrayList<Article>();
 				while (result.next()) {
-					int id = x.getInt(1);
-					String description = x.getString(2);
-					String brand = x.getString(3);
-					double price = x.getDouble(4);
-					x.add(new Article(rsIdUser, rsDescription, rsBrand, rsPrice));
+					articles.add(new Article(result.getString("Description"), result.getString("Brand"), result.getDouble("UnitaryPrice")));
 				}
-				return x;
+				return articles;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
